@@ -172,6 +172,9 @@ For single GPU, it takes about 30 minutes to train a single model (1500 iters at
 
 The validation/checkpoints/final mesh will be stored to `./work_dirs/<out_dir>`.
 
+### Testing on your images
+- We used [Implicit3DUnderstanding](https://github.com/chengzhag/Implicit3DUnderstanding) as a Image-to-3D model.
+- Preprocessing code utilizing this model will be updated soon...
 
 
 ### Acknowledgement
