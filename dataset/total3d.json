@@ -1,0 +1,36 @@
+
+[{
+    "category": "chair",
+    "instances":  [
+            {"id": "0169",
+            "mesh": "data/mesh/0169_nocutedge.obj",
+            "image": "./img/circle_chair_rgba.png",
+            "azimuth": -0.18539502717948464,
+            "elevation": 0.6992842464225787
+            },
+            {
+            "id": "3742",
+            "mesh": "data/mesh/3742_nocutedge.obj",
+            "image": "./img/no-arm-chair_rgba.png",
+            "azimuth": -0.6984137295571712,
+            "elevation": 0.5813345814135366
+            }]
+},
+{
+    "category": "table",
+    "instances":  [
+            {"id": "0169",
+            "mesh": "data/mesh/0169_nocutedge.obj",
+            "image": "./img/circle_chair_rgba.png",
+            "azimuth": -0.18539502717948464,
+            "elevation": 0.6992842464225787
+            },
+            {
+            "id": "3742",
+            "mesh": "data/mesh/3742_nocutedge.obj",
+            "image": "./img/no-arm-chair_rgba.png",
+            "azimuth": -0.6984137295571712,
+            "elevation": 0.5813345814135366
+            }]
+}
+]

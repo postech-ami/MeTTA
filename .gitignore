@@ -1,0 +1,25 @@
+__pycache__
+out
+work_dirs
+wandb
+img
+img_before
+pretrained
+*.hdr
+
+# compilation and distribution
+__pycache__
+_ext
+*.pyc
+*.pyd
+*.so
+*.dll
+*.egg-info/
+build/
+dist/
+wheels/
+
+temp*
+.vscode
+
+metta_code

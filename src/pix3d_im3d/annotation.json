@@ -1,0 +1,394 @@
+[
+    {
+        "category": "chair",
+        "instances": [
+            {
+                "id": "0169",
+                "mesh": "chair/mesh/pix3d_chair_0169_mesh.obj",
+                "image": "chair/image/pix3d_chair_0169_img.jpg",
+                "azimuth": -0.1591513911869864,
+                "elevation": 0.4829065501689911
+            },
+            {
+                "id": "0418",
+                "mesh": "chair/mesh/pix3d_chair_0418_mesh.obj",
+                "image": "chair/image/pix3d_chair_0418_img.jpg",
+                "azimuth": 1.106714173159327,
+                "elevation": 0.5758576989173889
+            },
+            {
+                "id": "1128",
+                "mesh": "chair/mesh/pix3d_chair_1128_mesh.obj",
+                "image": "chair/image/pix3d_chair_1128_img.jpg",
+                "azimuth": -1.1611598590996604,
+                "elevation": 0.5294563174247742
+            },
+            {
+                "id": "0195",
+                "mesh": "chair/mesh/pix3d_chair_0195_mesh.obj",
+                "image": "chair/image/pix3d_chair_0195_img.jpg",
+                "azimuth": 0.8431348045680185,
+                "elevation": 0.5947880744934082
+            },
+            {
+                "id": "0178",
+                "mesh": "chair/mesh/pix3d_chair_0178_mesh.obj",
+                "image": "chair/image/pix3d_chair_0178_img.jpg",
+                "azimuth": -2.9374429742482047,
+                "elevation": 0.4459754526615143
+            },
+            {
+                "id": "0456",
+                "mesh": "chair/mesh/pix3d_chair_0456_mesh.obj",
+                "image": "chair/image/pix3d_chair_0456_img.jpg",
+                "azimuth": -0.7686155597355704,
+                "elevation": 0.5178135633468628
+            },
+            {
+                "id": "0129",
+                "mesh": "chair/mesh/pix3d_chair_0129_mesh.obj",
+                "image": "chair/image/pix3d_chair_0129_img.jpg",
+                "azimuth": -1.068787888684545,
+                "elevation": 0.4462984800338745
+            },
+            {
+                "id": "0516",
+                "mesh": "chair/mesh/pix3d_chair_0516_mesh.obj",
+                "image": "chair/image/pix3d_chair_0516_img.jpg",
+                "azimuth": 0.8138176639887948,
+                "elevation": 0.4695061147212982
+            },
+            {
+                "id": "1344",
+                "mesh": "chair/mesh/pix3d_chair_1344_mesh.obj",
+                "image": "chair/image/pix3d_chair_1344_img.jpg",
+                "azimuth": 0.9159132679316659,
+                "elevation": 0.6104641556739807
+            },
+            {
+                "id": "1437",
+                "mesh": "chair/mesh/pix3d_chair_1437_mesh.obj",
+                "image": "chair/image/pix3d_chair_1437_img.jpg",
+                "azimuth": 0.07666461070510344,
+                "elevation": 0.5296024680137634
+            },
+            {
+                "id": "0348",
+                "mesh": "chair/mesh/pix3d_chair_0348_mesh.obj",
+                "image": "chair/image/pix3d_chair_0348_img.jpg",
+                "azimuth": 0.9806634624812265,
+                "elevation": 0.8112309575080872
+            },
+            {
+                "id": "0588",
+                "mesh": "chair/mesh/pix3d_chair_0588_mesh.obj",
+                "image": "chair/image/pix3d_chair_0588_img.jpg",
+                "azimuth": 0.3099967678401132,
+                "elevation": 0.5544168949127197
+            },
+            {
+                "id": "3256",
+                "mesh": "chair/mesh/pix3d_chair_3256_mesh.obj",
+                "image": "chair/image/pix3d_chair_3256_img.jpg",
+                "azimuth": -0.057116464772496656,
+                "elevation": 0.5945543050765991
+            }
+        ]
+    },
+    {
+        "category": "bed",
+        "instances": [
+            {
+                "id": "0910",
+                "mesh": "bed/mesh/pix3d_bed_0910_mesh.obj",
+                "image": "bed/image/pix3d_bed_0910_img.jpg",
+                "azimuth": 0.06344525416823821,
+                "elevation": 0.3349820673465729
+            },
+            {
+                "id": "0913",
+                "mesh": "bed/mesh/pix3d_bed_0913_mesh.obj",
+                "image": "bed/image/pix3d_bed_0913_img.jpg",
+                "azimuth": 0.8938185413691659,
+                "elevation": 0.4033745527267456
+            },
+            {
+                "id": "0788",
+                "mesh": "bed/mesh/pix3d_bed_0788_mesh.obj",
+                "image": "bed/image/pix3d_bed_0788_img.jpg",
+                "azimuth": 1.0256456573817392,
+                "elevation": 0.4471404552459717
+            },
+            {
+                "id": "0119",
+                "mesh": "bed/mesh/pix3d_bed_0119_mesh.obj",
+                "image": "bed/image/pix3d_bed_0119_img.jpg",
+                "azimuth": 0.017175718149866626,
+                "elevation": 0.33478638529777527
+            },
+            {
+                "id": "0124",
+                "mesh": "bed/mesh/pix3d_bed_0124_mesh.obj",
+                "image": "bed/image/pix3d_bed_0124_img.jpg",
+                "azimuth": -0.3323194543507437,
+                "elevation": 0.485526978969574
+            }
+        ]
+    },
+    {
+        "category": "bookcase",
+        "instances": [
+            {
+                "id": "0352",
+                "mesh": "bookcase/mesh/pix3d_bookcase_0352_mesh.obj",
+                "image": "bookcase/image/pix3d_bookcase_0352_img.jpg",
+                "azimuth": -0.3940228978779654,
+                "elevation": 0.072942815721035
+            },
+            {
+                "id": "0326",
+                "mesh": "bookcase/mesh/pix3d_bookcase_0326_mesh.obj",
+                "image": "bookcase/image/pix3d_bookcase_0326_img.jpg",
+                "azimuth": -0.012101368108067945,
+                "elevation": 0.07630980759859085
+            },
+            {
+                "id": "0291",
+                "mesh": "bookcase/mesh/pix3d_bookcase_0291_mesh.obj",
+                "image": "bookcase/image/pix3d_bookcase_0291_img.jpg",
+                "azimuth": -0.17689235607651277,
+                "elevation": 0.15657082200050354
+            }
+        ]
+    },
+    {
+        "category": "desk",
+        "instances": [
+            {
+                "id": "0688",
+                "mesh": "desk/mesh/pix3d_desk_0688_mesh.obj",
+                "image": "desk/image/pix3d_desk_0688_img.jpg",
+                "azimuth": 0.7499465187403818,
+                "elevation": 0.4188723862171173
+            },
+            {
+                "id": "0700",
+                "mesh": "desk/mesh/pix3d_desk_0700_mesh.obj",
+                "image": "desk/image/pix3d_desk_0700_img.jpg",
+                "azimuth": -0.04662866989639802,
+                "elevation": 0.6213281154632568
+            },
+            {
+                "id": "0698",
+                "mesh": "desk/mesh/pix3d_desk_0698_mesh.obj",
+                "image": "desk/image/pix3d_desk_0698_img.jpg",
+                "azimuth": -0.26483483711746736,
+                "elevation": 0.25009188055992126
+            },
+            {
+                "id": "0201",
+                "mesh": "desk/mesh/pix3d_desk_0201_mesh.obj",
+                "image": "desk/image/pix3d_desk_0201_img.jpg",
+                "azimuth": -0.4504278461125235,
+                "elevation": 0.3739657998085022
+            },
+            {
+                "id": "0595",
+                "mesh": "desk/mesh/pix3d_desk_0595_mesh.obj",
+                "image": "desk/image/pix3d_desk_0595_img.jpg",
+                "azimuth": 0.1131562431666513,
+                "elevation": 0.4391328692436218
+            },
+            {
+                "id": "0253",
+                "mesh": "desk/mesh/pix3d_desk_0253_mesh.obj",
+                "image": "desk/image/pix3d_desk_0253_img.jpg",
+                "azimuth": -0.22426755825546785,
+                "elevation": 0.35670772194862366
+            },
+            {
+                "id": "0245",
+                "mesh": "desk/mesh/pix3d_desk_0245_mesh.obj",
+                "image": "desk/image/pix3d_desk_0245_img.jpg",
+                "azimuth": -0.0503785173085074,
+                "elevation": 0.43026256561279297
+            }
+        ]
+    },
+    {
+        "category": "misc",
+        "instances": [
+            {
+                "id": "0067",
+                "mesh": "misc/mesh/pix3d_misc_0067_mesh.obj",
+                "image": "misc/image/pix3d_misc_0067_img.jpg",
+                "azimuth": 0.07192461093398528,
+                "elevation": 0.6233698129653931
+            },
+            {
+                "id": "0061",
+                "mesh": "misc/mesh/pix3d_misc_0061_mesh.obj",
+                "image": "misc/image/pix3d_misc_0061_img.jpg",
+                "azimuth": -0.13927276531723543,
+                "elevation": 0.6306771039962769
+            },
+            {
+                "id": "0038",
+                "mesh": "misc/mesh/pix3d_misc_0038_mesh.obj",
+                "image": "misc/image/pix3d_misc_0038_img.jpg",
+                "azimuth": 0.22911135753127532,
+                "elevation": 0.6070094108581543
+            },
+            {
+                "id": "0019",
+                "mesh": "misc/mesh/pix3d_misc_0019_mesh.obj",
+                "image": "misc/image/pix3d_misc_0019_img.jpg",
+                "azimuth": 0.8490719040248056,
+                "elevation": 0.524736225605011
+            },
+            {
+                "id": "0030",
+                "mesh": "misc/mesh/pix3d_misc_0030_mesh.obj",
+                "image": "misc/image/pix3d_misc_0030_img.jpg",
+                "azimuth": -0.12393637100723787,
+                "elevation": 0.5243856310844421
+            },
+            {
+                "id": "0057",
+                "mesh": "misc/mesh/pix3d_misc_0057_mesh.obj",
+                "image": "misc/image/pix3d_misc_0057_img.jpg",
+                "azimuth": 0.03859369357558684,
+                "elevation": 0.5057901740074158
+            },
+            {
+                "id": "0043",
+                "mesh": "misc/mesh/pix3d_misc_0043_mesh.obj",
+                "image": "misc/image/pix3d_misc_0043_img.jpg",
+                "azimuth": -0.19777079025772615,
+                "elevation": 0.5748491883277893
+            }
+        ]
+    },
+    {
+        "category": "sofa",
+        "instances": [
+            {
+                "id": "1363",
+                "mesh": "sofa/mesh/pix3d_sofa_1363_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_1363_img.jpg",
+                "azimuth": 0.8805486400935312,
+                "elevation": 0.3996255099773407
+            },
+            {
+                "id": "0731",
+                "mesh": "sofa/mesh/pix3d_sofa_0731_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_0731_img.jpg",
+                "azimuth": 0.771954937777247,
+                "elevation": 0.25454920530319214
+            },
+            {
+                "id": "1534",
+                "mesh": "sofa/mesh/pix3d_sofa_1534_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_1534_img.jpg",
+                "azimuth": -0.3882737914707999,
+                "elevation": 0.40158921480178833
+            },
+            {
+                "id": "1242",
+                "mesh": "sofa/mesh/pix3d_sofa_1242_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_1242_img.jpg",
+                "azimuth": 0.07200698455306487,
+                "elevation": 0.490750789642334
+            },
+            {
+                "id": "0404",
+                "mesh": "sofa/mesh/pix3d_sofa_0404_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_0404_img.jpg",
+                "azimuth": 0.044595642885889575,
+                "elevation": 0.3318788409233093
+            },
+            {
+                "id": "0500",
+                "mesh": "sofa/mesh/pix3d_sofa_0500_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_0500_img.jpg",
+                "azimuth": -0.9017260829594473,
+                "elevation": 0.3670418858528137
+            },
+            {
+                "id": "0505",
+                "mesh": "sofa/mesh/pix3d_sofa_0505_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_0505_img.jpg",
+                "azimuth": 0.024095221361841723,
+                "elevation": 0.533116340637207
+            },
+            {
+                "id": "0498",
+                "mesh": "sofa/mesh/pix3d_sofa_0498_mesh.obj",
+                "image": "sofa/image/pix3d_sofa_0498_img.jpg",
+                "azimuth": -0.06727810303238435,
+                "elevation": 0.5333819389343262
+            }
+        ]
+    },
+    {
+        "category": "table",
+        "instances": [
+            {
+                "id": "1266",
+                "mesh": "table/mesh/pix3d_table_1266_mesh.obj",
+                "image": "table/image/pix3d_table_1266_img.jpg",
+                "azimuth": 1.0437053879115243,
+                "elevation": 0.33111074566841125
+            },
+            {
+                "id": "0928",
+                "mesh": "table/mesh/pix3d_table_0928_mesh.obj",
+                "image": "table/image/pix3d_table_0928_img.jpg",
+                "azimuth": 0.2353796203944345,
+                "elevation": 0.3267134726047516
+            },
+            {
+                "id": "1433",
+                "mesh": "table/mesh/pix3d_table_1433_mesh.obj",
+                "image": "table/image/pix3d_table_1433_img.jpg",
+                "azimuth": -0.7631923715260367,
+                "elevation": 0.4832550287246704
+            },
+            {
+                "id": "0852",
+                "mesh": "table/mesh/pix3d_table_0852_mesh.obj",
+                "image": "table/image/pix3d_table_0852_img.jpg",
+                "azimuth": 0.011624737581934497,
+                "elevation": 0.26377418637275696
+            },
+            {
+                "id": "1081",
+                "mesh": "table/mesh/pix3d_table_1081_mesh.obj",
+                "image": "table/image/pix3d_table_1081_img.jpg",
+                "azimuth": -0.7982174913075308,
+                "elevation": 0.6468804478645325
+            },
+            {
+                "id": "1490",
+                "mesh": "table/mesh/pix3d_table_1490_mesh.obj",
+                "image": "table/image/pix3d_table_1490_img.jpg",
+                "azimuth": 0.36852531035872893,
+                "elevation": 0.27121609449386597
+            },
+            {
+                "id": "1654",
+                "mesh": "table/mesh/pix3d_table_1654_mesh.obj",
+                "image": "table/image/pix3d_table_1654_img.jpg",
+                "azimuth": -0.12631900707748933,
+                "elevation": 0.46034303307533264
+            },
+            {
+                "id": "0993",
+                "mesh": "table/mesh/pix3d_table_0993_mesh.obj",
+                "image": "table/image/pix3d_table_0993_img.jpg",
+                "azimuth": -0.6892312924054007,
+                "elevation": 0.6990517377853394
+            }
+        ]
+    }
+]

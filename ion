@@ -1,0 +1,792 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/LICENSE b/LICENSE[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/LICENSE_NVIDIA b/LICENSE_NVIDIA[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/README.md b/README.md[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/debug.json b/configs/debug.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/flower.json b/configs/flower.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/goblet.json b/configs/goblet.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/hamburger.json b/configs/hamburger.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/head.json b/configs/head.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/ironman.json b/configs/ironman.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/pineapple.json b/configs/pineapple.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/strawberry.json b/configs/strawberry.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/configs/test.json b/configs/test.json[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/ellipsoid.obj b/data/ellipsoid.obj[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/irrmaps/README.txt b/data/irrmaps/README.txt[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/irrmaps/aerodynamics_workshop_2k.hdr b/data/irrmaps/aerodynamics_workshop_2k.hdr[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/irrmaps/bsdf_256_256.bin b/data/irrmaps/bsdf_256_256.bin[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/irrmaps/studio_small_08_2k.hdr b/data/irrmaps/studio_small_08_2k.hdr[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/sphere.obj b/data/sphere.obj[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/tets/128_tets.npz b/data/tets/128_tets.npz[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/tets/32_tets.npz b/data/tets/32_tets.npz[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/tets/64_tets.npz b/data/tets/64_tets.npz[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/tets/README.md b/data/tets/README.md[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/data/tets/generate_tets.py b/data/tets/generate_tets.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/dataset/dataset.py b/dataset/dataset.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/dataset/dataset_mesh.py b/dataset/dataset_mesh.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/dpt.py b/dpt.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/encoding.py b/encoding.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/geometry/dlmesh.py b/geometry/dlmesh.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/geometry/dmtet.py b/geometry/dmtet.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 946f7df..dfeb9f8[m
+[1m--- a/geometry/dmtet.py[m
+[1m+++ b/geometry/dmtet.py[m
+[36m@@ -25,6 +25,8 @@[m [mimport os[m
+ import wandb[m
+ import cv2[m
+ [m
+[32m+[m[32mfrom gridencoder import GridEncoder[m
+[32m+[m
+ class MLP(nn.Module):[m
+     def __init__(self, dim_in, dim_out, dim_hidden, num_layers, bias=True):[m
+         super().__init__()[m
+[36m@@ -232,7 +234,9 @@[m [mclass DMTetGeometry(torch.nn.Module):[m
+         self.indices  = torch.tensor(tets['indices'], dtype=torch.long, device='cuda') # for 64/128, [M=192492/1524684, 4], vert indices for each tetrahetron?[m
+         self.generate_edges()[m
+ [m
+[31m-        self.encoder, self.in_dim = get_encoder('hashgrid', input_dim=3)[m
+[32m+[m[32m        # self.encoder, self.in_dim = get_encoder('hashgrid', input_dim=3)[m
+[32m+[m[32m        self.encoder = GridEncoder(input_dim=3, num_levels=16, level_dim=2, base_resolution=16, log2_hashmap_size=19, desired_resolution=2048, gridtype='hash', align_corners=False, interpolation='linear')[m
+[32m+[m[32m        self.in_dim = self.encoder.output_dim[m
+         self.mlp = MLP(self.in_dim, 4, 32, 3, False)[m
+ [m
+         self.encoder.cuda()[m
+[36m@@ -338,12 +342,12 @@[m [mclass DMTetGeometry(torch.nn.Module):[m
+ [m
+         return imesh, sdf[m
+ [m
+[31m-    def render(self, glctx, target, lgt, opt_material, bsdf=None):[m
+[32m+[m[32m    def render(self, glctx, target, lgt, opt_material, bsdf=None, args=None):[m
+         [m
+         # return rendered buffers, keys: ['shaded', 'kd_grad', 'occlusion'].[m
+         opt_mesh, sdf = self.getMesh(opt_material)[m
+         buffers = render.render_mesh(glctx, opt_mesh, target['mvp'], target['campos'], lgt, target['resolution'], spp=target['spp'], [m
+[31m-                                        msaa=True, background=None, bsdf=bsdf)[m
+[32m+[m[32m                                        msaa=True, background=None, bsdf=bsdf, args=args)[m
+         buffers['mesh'] = opt_mesh[m
+         buffers['sdf'] = sdf[m
+ [m
+[36m@@ -355,7 +359,7 @@[m [mclass DMTetGeometry(torch.nn.Module):[m
+         # ==============================================================================================[m
+         #  Render optimizable object with identical conditions[m
+         # ==============================================================================================[m
+[31m-        buffers = self.render(glctx, target, lgt, opt_material)[m
+[32m+[m[32m        buffers = self.render(glctx, target, lgt, opt_material, args=args)[m
+ [m
+         # buffers.keys()[m
+         # dict_keys(['shaded', 'kd_grad', 'occlusion', 'normal', 'mesh', 'sdf'])[m
+[1mdiff --git a/gridencoder/__init__.py b/gridencoder/__init__.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/gridencoder/backend.py b/gridencoder/backend.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/gridencoder/grid.py b/gridencoder/grid.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex b587651..8e4f639[m
+[1m--- a/gridencoder/grid.py[m
+[1m+++ b/gridencoder/grid.py[m
+[36m@@ -100,7 +100,7 @@[m [mgrid_encode = _grid_encode.apply[m
+ [m
+ [m
+ class GridEncoder(nn.Module):[m
+[31m-    def __init__(self, input_dim=3, num_levels=16, level_dim=2, per_level_scale=2, base_resolution=16, log2_hashmap_size=19, desired_resolution=None, gridtype='hash', align_corners=False, interpolation='linear'):[m
+[32m+[m[32m    def __init__(self, input_dim=3, num_levels=16, level_dim=2, per_level_scale=2, base_resolution=16, log2_hashmap_size=19, desired_resolution=None, gridtype='hash', align_corners=False, interpolation='linear', std=1e-4):[m
+         super().__init__()[m
+ [m
+         # the finest resolution desired at the last level, if provided, overridee per_level_scale[m
+[36m@@ -119,6 +119,7 @@[m [mclass GridEncoder(nn.Module):[m
+         self.interpolation = interpolation[m
+         self.interp_id = _interp_to_id[interpolation] # "linear" or "smoothstep"[m
+         self.align_corners = align_corners[m
+[32m+[m[32m        self.std = std[m
+ [m
+         # allocate parameters[m
+         offsets = [][m
+[36m@@ -142,7 +143,8 @@[m [mclass GridEncoder(nn.Module):[m
+         self.reset_parameters()[m
+     [m
+     def reset_parameters(self):[m
+[31m-        std = 1e-4[m
+[32m+[m[32m        # std = 1e-4  # TODO: 1e-2, 1e-1, visualize try again[m
+[32m+[m[32m        std = self.std[m
+         self.embeddings.data.uniform_(-std, std)[m
+ [m
+     def __repr__(self):[m
+[1mdiff --git a/gridencoder/setup.py b/gridencoder/setup.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/gridencoder/src/bindings.cpp b/gridencoder/src/bindings.cpp[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/gridencoder/src/gridencoder.cu b/gridencoder/src/gridencoder.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/gridencoder/src/gridencoder.h b/gridencoder/src/gridencoder.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/guidance/clip_utils.py b/guidance/clip_utils.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/guidance/if_utils.py b/guidance/if_utils.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/guidance/sd_utils.py b/guidance/sd_utils.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 3a705d4..cee47b5[m
+[1m--- a/guidance/sd_utils.py[m
+[1m+++ b/guidance/sd_utils.py[m
+[36m@@ -149,7 +149,14 @@[m [mclass StableDiffusion(nn.Module):[m
+             latents = self.encode_imgs(pred_rgb_512)[m
+ [m
+         # timestep ~ U(0.02, 0.98) to avoid very high/low noise level[m
+[31m-        t = torch.randint(self.min_step, self.max_step + 1, [B], dtype=torch.long, device=self.device)[m
+[32m+[m[32m        if args.iteration >= 3000 and args.iteration <= 3300:[m
+[32m+[m[32m            min_step = int(self.num_train_timesteps * 0.50)[m
+[32m+[m[32m            max_step = int(self.num_train_timesteps * 0.98)[m
+[32m+[m[32m        else:[m
+[32m+[m[32m            min_step = self.min_step[m
+[32m+[m[32m            max_step = self.max_step[m
+[32m+[m[41m    [m
+[32m+[m[32m        t = torch.randint(min_step, max_step + 1, [B], dtype=torch.long, device=self.device)[m
+ [m
+         # predict the noise residual with unet, NO grad![m
+         with torch.no_grad():[m
+[1mdiff --git a/guidance/zero123_utils.py b/guidance/zero123_utils.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/main.py b/main.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex a031f02..d39c9f8[m
+[1m--- a/main.py[m
+[1m+++ b/main.py[m
+[36m@@ -111,6 +111,7 @@[m [mif __name__ == "__main__":[m
+ [m
+     parser.add_argument('--lgt_interval', type=int, default=0)[m
+     parser.add_argument('--mat_interval', type=int, default=0)[m
+[32m+[m[32m    parser.add_argument('--mat_stat_log', action='store_true')[m
+ [m
+     parser.add_argument('--debug', action='store_true')[m
+ [m
+[36m@@ -287,7 +288,7 @@[m [mif __name__ == "__main__":[m
+         lgt = light.create_trainable_env_rnd(512, scale=0.0, bias=FLAGS.lgt_bias, FLAGS=FLAGS)[m
+         light.save_env_map(os.path.join(FLAGS.out_dir, "initial_probe.hdr"), lgt)[m
+     else:[m
+[31m-        lgt = light.load_env(FLAGS.envmap, scale=FLAGS.env_scale)[m
+[32m+[m[32m        lgt = light.load_env(FLAGS.envmap, scale=FLAGS.env_scale, FLAGS=FLAGS)[m
+ [m
+     # ==============================================================================================[m
+     #  always use DMtets to create geometry[m
+[1mdiff --git a/optimizer.py b/optimizer.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/preprocess_image.py b/preprocess_image.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/light.py b/render/light.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 97d4ebc..7bf69f0[m
+[1m--- a/render/light.py[m
+[1m+++ b/render/light.py[m
+[36m@@ -52,8 +52,7 @@[m [mclass EnvironmentLight(torch.nn.Module):[m
+         self.base = torch.nn.Parameter(base.clone().detach(), requires_grad=True)[m
+         self.register_parameter('env_base', self.base)[m
+ [m
+[31m-        if FLAGS != None:[m
+[31m-            self.FLAGS = FLAGS[m
+[32m+[m[32m        self.FLAGS = FLAGS[m
+         self.iter = 0[m
+ [m
+     def xfm(self, mtx):[m
+[36m@@ -142,18 +141,18 @@[m [mclass EnvironmentLight(torch.nn.Module):[m
+ ######################################################################################[m
+ [m
+ # Load from latlong .HDR file[m
+[31m-def _load_env_hdr(fn, scale=1.0):[m
+[32m+[m[32mdef _load_env_hdr(fn, scale=1.0, FLAGS=None):[m
+     latlong_img = torch.tensor(util.load_image(fn), dtype=torch.float32, device='cuda')*scale[m
+     cubemap = util.latlong_to_cubemap(latlong_img, [512, 512])[m
+ [m
+[31m-    l = EnvironmentLight(cubemap)[m
+[32m+[m[32m    l = EnvironmentLight(cubemap, FLAGS)[m
+     l.build_mips()[m
+ [m
+     return l[m
+ [m
+[31m-def load_env(fn, scale=1.0):[m
+[32m+[m[32mdef load_env(fn, scale=1.0, FLAGS=None):[m
+     if os.path.splitext(fn)[1].lower() == ".hdr":[m
+[31m-        return _load_env_hdr(fn, scale)[m
+[32m+[m[32m        return _load_env_hdr(fn, scale, FLAGS)[m
+     else:[m
+         assert False, "Unknown envlight extension %s" % os.path.splitext(fn)[1][m
+ [m
+[1mdiff --git a/render/material.py b/render/material.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/mesh.py b/render/mesh.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/mlptexture.py b/render/mlptexture.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 0932bb4..c6e13ad[m
+[1m--- a/render/mlptexture.py[m
+[1m+++ b/render/mlptexture.py[m
+[36m@@ -87,42 +87,85 @@[m [mclass MLPTexture3D(torch.nn.Module):[m
+         print("Encoder output: %d dims" % (self.encoder.output_dim))[m
+ [m
+     # Sample texture at a given location[m
+[31m-    def sample(self, texc):[m
+[32m+[m[32m    def sample(self, texc, args=None):[m
+         # texc: [n, h, w, 3]; [1, 512, 512, 3][m
+         # normalize coords into [0, 1][m
+         _texc = (texc.view(-1, 3) - self.AABB[0][None, ...]) / (self.AABB[1][None, ...] - self.AABB[0][None, ...])[m
+[31m-        _texc = torch.clamp(_texc, min=0, max=1)[m
+[32m+[m[32m        _texc = torch.clamp(_texc, min=0, max=1)  # torch.Size([262144, 3])[m
+         [m
+[32m+[m[32m        # _texc[:, 0] min 0.1214, max 0.8545, mean 0.4999, std 0.1009[m
+[32m+[m[32m        # _texc[:, 1] min 0.1373, max 0.9996, mean 0.5677, std 0.1370[m
+[32m+[m[32m        # _texc[:, 2] min 0.3113, max 0.9441, mean 0.6128, std 0.1538[m
+[32m+[m
+         p_enc = self.encoder(_texc.contiguous())[m
+         # p_enc.shape: torch.Size([262144, 32])[m
+[32m+[m[32m        # min -0.0131, max 0.0130, mean -0.0002, std 0.0032[m
+[32m+[m
+[32m+[m[32m        # print("\nAfter encoding ====================")[m
+[32m+[m[32m        # print(f"min: {p_enc.min():.4f}, max: {p_enc.max():.4f}, mean: {p_enc.mean():.4f}, std: {p_enc.std():.4f}")[m
+         [m
+         out = self.net.forward(p_enc)[m
+[32m+[m[32m        # torch.Size([262144, 9])[m
+         [m
+[31m-        print("\nBefore ====================")[m
+[31m-        print(f"[kd] min: {out[:, :3].min()}, max: {out[:, :3].max()}, mean: {out[:, :3].mean()}, std: {out[:, :3].std()}")[m
+[31m-        print(f"[ks] min: {out[:, 3:6].min()}, max: {out[:, 3:6].max()}, mean: {out[:, 3:6].mean()}, std: {out[:, 3:6].std()}")[m
+[31m-        print(f"[knrm] min: {out[:, 6:].min()}, max: {out[:, 6:].max()}, mean: {out[:, 6:].mean()}, std: {out[:, 6:].std()}")[m
+[32m+[m[32m        # mat_image = self.FLAGS.mat_interval and (iteration % self.FLAGS.mat_interval == 0)[m
+[32m+[m[32m        if (args != None) and (args.mat_stat_log) and (args.local_rank == 0):[m
+[32m+[m[32m            wandb_logs = args.wandb_logs[m
+[32m+[m[32m            wandb_logs.update({'Mat_before/kd/min': out[:, :3].min().item(), 'Mat_before/kd/max': out[:, :3].max().item(), 'Mat_before/kd/mean': out[:, :3].mean().item(), 'Mat_before/kd/std': out[:, :3].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_before/ks/min': out[:, 3:6].min().item(), 'Mat_before/ks/max': out[:, 3:6].max().item(), 'Mat_before/ks/mean': out[:, 3:6].mean().item(), 'Mat_before/ks/std': out[:, 3:6].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_before/roughness/min': out[:, 4].min().item(), 'Mat_before/roughness/max': out[:, 4].max().item(), 'Mat_before/roughness/mean': out[:, 4].mean().item(), 'Mat_before/roughness/std': out[:, 4].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_before/metalic/min': out[:, 5].min().item(), 'Mat_before/metalic/max': out[:, 5].max().item(), 'Mat_before/metalic/mean': out[:, 5].mean().item(), 'Mat_before/metalic/std': out[:, 5].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_before/knrm/min': out[:, 3:6].min().item(), 'Mat_before/knrm/max': out[:, 3:6].max().item(), 'Mat_before/knrm/mean': out[:, 3:6].mean().item(), 'Mat_before/knrm/std': out[:, 3:6].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m        # print("\Before ====================")[m
+[32m+[m[32m        # print(f"[kd] min: {out[:, :3].min():.4f}, max: {out[:, :3].max():.4f}, mean: {out[:, :3].mean():.4f}, std: {out[:, :3].std():.4f}")[m
+[32m+[m[32m        # print(f"[ks] min: {out[:, 3:6].min():.4f}, max: {out[:, 3:6].max():.4f}, mean: {out[:, 3:6].mean():.4f}, std: {out[:, 3:6].std():.4f}")[m
+[32m+[m[32m        # print(f"[knrm] min: {out[:, 6:].min():.4f}, max: {out[:, 6:].max():.4f}, mean: {out[:, 6:].mean():.4f}, std: {out[:, 6:].std():.4f}")[m
+         [m
+         # Sigmoid limit and scale to the allowed range[m
+         # out = torch.sigmoid(out) * (self.min_max[1][None, :] - self.min_max[0][None, :]) + self.min_max[0][None, :][m
+[32m+[m[41m        [m
+[32m+[m[32m        # FIXME: offset[m
+[32m+[m[32m        # out[:, :3] = out[:, :3] + 1.5[m
+         out = torch.sigmoid(out)[m
+ [m
+[31m-        print("Mid ====================")[m
+[31m-        print(f"[kd] min: {out[:, :3].min()}, max: {out[:, :3].max()}, mean: {out[:, :3].mean()}, std: {out[:, :3].std()}")[m
+[31m-        print(f"[ks] min: {out[:, 3:6].min()}, max: {out[:, 3:6].max()}, mean: {out[:, 3:6].mean()}, std: {out[:, 3:6].std()}")[m
+[31m-        print(f"[knrm] min: {out[:, 6:].min()}, max: {out[:, 6:].max()}, mean: {out[:, 6:].mean()}, std: {out[:, 6:].std()}")[m
+[32m+[m[32m        if (args != None) and (args.mat_stat_log) and (args.local_rank == 0):[m
+[32m+[m[32m            wandb_logs.update({'Mat_mid/kd/min': out[:, :3].min().item(), 'Mat_mid/kd/max': out[:, :3].max().item(), 'Mat_mid/kd/mean': out[:, :3].mean().item(), 'Mat_mid/kd/std': out[:, :3].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_mid/ks/min': out[:, 3:6].min().item(), 'Mat_mid/ks/max': out[:, 3:6].max().item(), 'Mat_mid/ks/mean': out[:, 3:6].mean().item(), 'Mat_mid/ks/std': out[:, 3:6].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_mid/roughness/min': out[:, 4].min().item(), 'Mat_mid/roughness/max': out[:, 4].max().item(), 'Mat_mid/roughness/mean': out[:, 4].mean().item(), 'Mat_mid/roughness/std': out[:, 4].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_mid/metalic/min': out[:, 5].min().item(), 'Mat_mid/metalic/max': out[:, 5].max().item(), 'Mat_mid/metalic/mean': out[:, 5].mean().item(), 'Mat_mid/metalic/std': out[:, 5].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_mid/knrm/min': out[:, 3:6].min().item(), 'Mat_mid/knrm/max': out[:, 3:6].max().item(), 'Mat_mid/knrm/mean': out[:, 3:6].mean().item(), 'Mat_mid/knrm/std': out[:, 3:6].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m
+[32m+[m[32m        # print("Mid ====================")[m
+[32m+[m[32m        # print(f"[kd] min: {out[:, :3].min():.4f}, max: {out[:, :3].max():.4f}, mean: {out[:, :3].mean():.4f}, std: {out[:, :3].std():.4f}")[m
+[32m+[m[32m        # print(f"[ks] min: {out[:, 3:6].min():.4f}, max: {out[:, 3:6].max():.4f}, mean: {out[:, 3:6].mean():.4f}, std: {out[:, 3:6].std():.4f}")[m
+[32m+[m[32m        # print(f"[knrm] min: {out[:, 6:].min():.4f}, max: {out[:, 6:].max():.4f}, mean: {out[:, 6:].mean():.4f}, std: {out[:, 6:].std():.4f}")[m
+ [m
+         out = out * (self.min_max[1][None, :] - self.min_max[0][None, :]) + self.min_max[0][None, :][m
+         [m
+[32m+[m[32m        if (args != None) and (args.mat_stat_log) and (args.local_rank == 0):[m
+[32m+[m[32m            wandb_logs.update({'Mat_after/kd/min': out[:, :3].min().item(), 'Mat_after/kd/max': out[:, :3].max().item(), 'Mat_after/kd/mean': out[:, :3].mean().item(), 'Mat_after/kd/std': out[:, :3].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_after/ks/min': out[:, 3:6].min().item(), 'Mat_after/ks/max': out[:, 3:6].max().item(), 'Mat_after/ks/mean': out[:, 3:6].mean().item(), 'Mat_after/ks/std': out[:, 3:6].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_after/roughness/min': out[:, 4].min().item(), 'Mat_after/roughness/max': out[:, 4].max().item(), 'Mat_after/roughness/mean': out[:, 4].mean().item(), 'Mat_after/roughness/std': out[:, 4].std().item()})[m
+[32m+[m[32m            wandb_logs.update({'Mat_after/metalic/min': out[:, 5].min().item(), 'Mat_after/metalic/max': out[:, 5].max().item(), 'Mat_after/metalic/mean': out[:, 5].mean().item(), 'Mat_after/metalic/std': out[:, 5].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m[32m            wandb_logs.update({'Mat_after/knrm/min': out[:, 3:6].min().item(), 'Mat_after/knrm/max': out[:, 3:6].max().item(), 'Mat_after/knrm/mean': out[:, 3:6].mean().item(), 'Mat_after/knrm/std': out[:, 3:6].std().item()})[m
+[32m+[m[41m            [m
+[32m+[m
+         # FIXME: out statistics[m
+         # _kd = out[:, :3][m
+         # _ks = out[:, 3:6][m
+         # _nrm = out[:, 6:][m
+ [m
+[31m-        print("After ====================")[m
+[31m-        print(f"[kd] min: {out[:, :3].min()}, max: {out[:, :3].max()}, mean: {out[:, :3].mean()}, std: {out[:, :3].std()}")[m
+[31m-        print(f"[ks] min: {out[:, 3:6].min()}, max: {out[:, 3:6].max()}, mean: {out[:, 3:6].mean()}, std: {out[:, 3:6].std()}")[m
+[31m-        print(f"[knrm] min: {out[:, 6:].min()}, max: {out[:, 6:].max()}, mean: {out[:, 6:].mean()}, std: {out[:, 6:].std()}")[m
+[32m+[m[32m        # print("After ====================")[m
+[32m+[m[32m        # print(f"[kd] min: {out[:, :3].min():.4f}, max: {out[:, :3].max():.4f}, mean: {out[:, :3].mean():.4f}, std: {out[:, :3].std():.4f}")[m
+[32m+[m[32m        # print(f"[ks] min: {out[:, 3:6].min():.4f}, max: {out[:, 3:6].max():.4f}, mean: {out[:, 3:6].mean():.4f}, std: {out[:, 3:6].std():.4f}")[m
+[32m+[m[32m        # print(f"[knrm] min: {out[:, 6:].min():.4f}, max: {out[:, 6:].max():.4f}, mean: {out[:, 6:].mean():.4f}, std: {out[:, 6:].std():.4f}")[m
+         [m
+         return out.view(*texc.shape[:-1], self.channels) # Remap to [n, h, w, 9][m
+ [m
+[1mdiff --git a/render/obj.py b/render/obj.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/regularizer.py b/render/regularizer.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/render.py b/render/render.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex bb9c02a..5e65c85[m
+[1m--- a/render/render.py[m
+[1m+++ b/render/render.py[m
+[36m@@ -34,7 +34,8 @@[m [mdef shade([m
+         view_pos,[m
+         lgt,[m
+         material,[m
+[31m-        bsdf[m
+[32m+[m[32m        bsdf,[m
+[32m+[m[32m        args=None[m
+     ):[m
+ [m
+     ################################################################################[m
+[36m@@ -43,8 +44,8 @@[m [mdef shade([m
+     perturbed_nrm = None[m
+     if 'kd_ks_normal' in material:[m
+         # Combined texture, used for MLPs because lookups are expensive[m
+[31m-        all_tex_jitter = material['kd_ks_normal'].sample(gb_pos + torch.normal(mean=0, std=0.01, size=gb_pos.shape, device="cuda"))[m
+[31m-        all_tex = material['kd_ks_normal'].sample(gb_pos)[m
+[32m+[m[32m        all_tex_jitter = material['kd_ks_normal'].sample(gb_pos + torch.normal(mean=0, std=0.01, size=gb_pos.shape, device="cuda"), args=None)[m
+[32m+[m[32m        all_tex = material['kd_ks_normal'].sample(gb_pos, args=args)[m
+         assert all_tex.shape[-1] == 9 or all_tex.shape[-1] == 10, "Combined kd_ks_normal must be 9 or 10 channels"[m
+         kd, ks, perturbed_nrm = all_tex[..., :-6], all_tex[..., -6:-3], all_tex[..., -3:][m
+         # Compute albedo (kd) gradient, used for material regularizer[m
+[36m@@ -121,7 +122,8 @@[m [mdef render_layer([m
+         resolution,[m
+         spp,[m
+         msaa,[m
+[31m-        bsdf[m
+[32m+[m[32m        bsdf,[m
+[32m+[m[32m        args=None[m
+     ):[m
+ [m
+     full_res = [resolution[0]*spp, resolution[1]*spp][m
+[36m@@ -143,7 +145,8 @@[m [mdef render_layer([m
+     ################################################################################[m
+ [m
+     # Interpolate world space position[m
+[31m-    gb_pos, _ = interpolate(mesh.v_pos[None, ...], rast_out_s, mesh.t_pos_idx.int())[m
+[32m+[m[32m    # rast_out_s: n, h, w, c (c is 4)[m
+[32m+[m[32m    gb_pos, _ = interpolate(mesh.v_pos[None, ...], rast_out_s, mesh.t_pos_idx.int())  # v_pos: vertex positions, t_pos_idx: mesh triangle index[m
+     gb_mask, _ = interpolate(torch.ones_like(mesh.v_pos[None, ..., :1]), rast_out_s, mesh.t_pos_idx.int())[m
+ [m
+     # Compute geometric normals. We need those because of bent normals trick (for bump mapping)[m
+[36m@@ -170,7 +173,7 @@[m [mdef render_layer([m
+     # gb_mask: torch.Size([1, 512, 512, 1])[m
+     # gb_texc: torch.Size([1, 512, 512, 2])[m
+     # gb_texc_deriv.shape: torch.Size([1, 512, 512, 4])[m
+[31m-    buffers = shade(gb_pos, gb_mask, gb_geometric_normal, gb_normal, gb_tangent, gb_texc, gb_texc_deriv, view_pos, lgt, mesh.material, bsdf)[m
+[32m+[m[32m    buffers = shade(gb_pos, gb_mask, gb_geometric_normal, gb_normal, gb_tangent, gb_texc, gb_texc_deriv, view_pos, lgt, mesh.material, bsdf, args=args)[m
+ [m
+     ################################################################################[m
+     # Prepare output[m
+[36m@@ -202,7 +205,8 @@[m [mdef render_mesh([m
+         num_layers  = 1, # always 1[m
+         msaa        = False,[m
+         background  = None, [m
+[31m-        bsdf        = None[m
+[32m+[m[32m        bsdf        = None,[m
+[32m+[m[32m        args        = None[m
+     ):[m
+ [m
+     def prepare_input_vector(x):[m
+[36m@@ -235,7 +239,7 @@[m [mdef render_mesh([m
+     with dr.DepthPeeler(ctx, v_pos_clip, mesh.t_pos_idx.int(), full_res) as peeler:[m
+         for _ in range(num_layers):[m
+             rast, db = peeler.rasterize_next_layer()[m
+[31m-            layers += [(render_layer(rast, db, mesh, view_pos, lgt, resolution, spp, msaa, bsdf), rast)][m
+[32m+[m[32m            layers += [(render_layer(rast, db, mesh, view_pos, lgt, resolution, spp, msaa, bsdf, args=args), rast)][m
+ [m
+     # Setup background[m
+     if background is not None:[m
+[1mdiff --git a/render/renderutils/__init__.py b/render/renderutils/__init__.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/bsdf.py b/render/renderutils/bsdf.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/bsdf.cu b/render/renderutils/c_src/bsdf.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/bsdf.h b/render/renderutils/c_src/bsdf.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/common.cpp b/render/renderutils/c_src/common.cpp[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/common.h b/render/renderutils/c_src/common.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/cubemap.cu b/render/renderutils/c_src/cubemap.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/cubemap.h b/render/renderutils/c_src/cubemap.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/loss.cu b/render/renderutils/c_src/loss.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/loss.h b/render/renderutils/c_src/loss.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/mesh.cu b/render/renderutils/c_src/mesh.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/mesh.h b/render/renderutils/c_src/mesh.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/normal.cu b/render/renderutils/c_src/normal.cu[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/normal.h b/render/renderutils/c_src/normal.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/tensor.h b/render/renderutils/c_src/tensor.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/torch_bindings.cpp b/render/renderutils/c_src/torch_bindings.cpp[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/vec3f.h b/render/renderutils/c_src/vec3f.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/c_src/vec4f.h b/render/renderutils/c_src/vec4f.h[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/loss.py b/render/renderutils/loss.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/ops.py b/render/renderutils/ops.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/tests/test_bsdf.py b/render/renderutils/tests/test_bsdf.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/tests/test_cubemap.py b/render/renderutils/tests/test_cubemap.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/tests/test_loss.py b/render/renderutils/tests/test_loss.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/tests/test_mesh.py b/render/renderutils/tests/test_mesh.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/renderutils/tests/test_perf.py b/render/renderutils/tests/test_perf.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/texture.py b/render/texture.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/render/util.py b/render/util.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/requirements.txt b/requirements.txt[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/shells/0_train.sh b/shells/0_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 481b691..24235c9[m
+[1m--- a/shells/0_train.sh[m
+[1m+++ b/shells/0_train.sh[m
+[36m@@ -3,12 +3,14 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=0 python main.py \[m
+[31m-    --config configs/debug.json \[m
+[31m-    --text "a ripe strawberry" \[m
+[31m-    --out_dir "strawberry_log" \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a ripe strawberry" \[m
+[32m+[m[32m    --out_dir "strawberry_env-mountain_large-sds_offset-0.0" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain.hdr" \[m
+     --sds_interval 100 \[m
+     --lgt_interval 100 \[m
+     --mat_interval 100 \[m
+[32m+[m[32m    --mat_stat_log \[m
+     --write_video[m
+ [m
+ [m
+[1mdiff --git a/shells/1_train.sh b/shells/1_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex f15d670..551610e[m
+[1m--- a/shells/1_train.sh[m
+[1m+++ b/shells/1_train.sh[m
+[36m@@ -3,11 +3,11 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=1 python main.py \[m
+[31m-    --config configs/debug.json \[m
+[31m-    --text "a ripe strawberry" \[m
+[31m-    --out_dir "strawberry_lgt-vis_mat-vis_iters-7000" \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a delicious hamburger" \[m
+[32m+[m[32m    --out_dir "hamburger_env-mountain_large-sds" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain.hdr" \[m
+     --sds_interval 100 \[m
+     --lgt_interval 100 \[m
+     --mat_interval 100 \[m
+[31m-    --write_video \[m
+[31m-    --iter 7000[m
+\ No newline at end of file[m
+[32m+[m[32m    --write_video[m
+\ No newline at end of file[m
+[1mdiff --git a/shells/2_train.sh b/shells/2_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 949235f..aef54ab[m
+[1m--- a/shells/2_train.sh[m
+[1m+++ b/shells/2_train.sh[m
+[36m@@ -3,10 +3,21 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=2 python main.py \[m
+[31m-    --config configs/debug.json \[m
+[31m-    --text "a ripe strawberry" \[m
+[31m-    --out_dir "strawberry_x-flip" \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a highly detailed stone bust of Theodoros Kolokotronis" \[m
+[32m+[m[32m    --out_dir "head_env-mountain_large-sds" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain.hdr" \[m
+     --sds_interval 100 \[m
+     --lgt_interval 100 \[m
+     --mat_interval 100 \[m
+[31m-    --write_video[m
+\ No newline at end of file[m
+[32m+[m[32m    --write_video[m
+[32m+[m
+[32m+[m[32m# CUDA_VISIBLE_DEVICES=2 python main.py \[m
+[32m+[m[32m#     --config configs/debug.json \[m
+[32m+[m[32m#     --text "a ripe strawberry" \[m
+[32m+[m[32m#     --out_dir "strawberry_mat-stat-log" \[m
+[32m+[m[32m#     --sds_interval 100 \[m
+[32m+[m[32m#     --lgt_interval 100 \[m
+[32m+[m[32m#     --mat_interval 100 \[m
+[32m+[m[32m#     --mat_stat_log \[m
+[32m+[m[32m#     --write_video[m
+\ No newline at end of file[m
+[1mdiff --git a/shells/3_train.sh b/shells/3_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex c5b8023..4bc1855[m
+[1m--- a/shells/3_train.sh[m
+[1m+++ b/shells/3_train.sh[m
+[36m@@ -3,9 +3,10 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=3 python main.py \[m
+[31m-    --config configs/debug.json \[m
+[31m-    --text "a ripe strawberry" \[m
+[31m-    --out_dir "strawberry_bnorm" \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a pineapple" \[m
+[32m+[m[32m    --out_dir "pineapple_env-mountain_large-sds" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain.hdr" \[m
+     --sds_interval 100 \[m
+     --lgt_interval 100 \[m
+     --mat_interval 100 \[m
+[1mdiff --git a/shells/4_train.sh b/shells/4_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 0df414d..2420f43[m
+[1m--- a/shells/4_train.sh[m
+[1m+++ b/shells/4_train.sh[m
+[36m@@ -3,16 +3,11 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=4 python main.py \[m
+[31m-    --config configs/goblet.json \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a golden goblet" \[m
+[32m+[m[32m    --out_dir "golden_env-mountain-new_large-sds" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain_new.hdr" \[m
+     --sds_interval 100 \[m
+[31m-    --write_video[m
+[31m-[m
+[31m-# CUDA_VISIBLE_DEVICES=4 python main.py \[m
+[31m-#     --config configs/1_debug.json \[m
+[31m-#     --optim adan \[m
+[31m-#     --text "a ripe strawberry" \[m
+[31m-#     --out_dir strawberry_adan_optim-both_sds-vis \[m
+[31m-#     --optim_both \[m
+[31m-#     -lr 0.001 \[m
+[31m-#     --sds_interval 10 \[m
+[31m-#     --write_video[m
+\ No newline at end of file[m
+[32m+[m[32m    --lgt_interval 100 \[m
+[32m+[m[32m    --mat_interval 100 \[m
+[32m+[m[32m    --write_video[m
+\ No newline at end of file[m
+[1mdiff --git a/shells/5_train.sh b/shells/5_train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex b3e8817..cc6271f[m
+[1m--- a/shells/5_train.sh[m
+[1m+++ b/shells/5_train.sh[m
+[36m@@ -3,7 +3,11 @@[m
+ wandb enabled[m
+ [m
+ CUDA_VISIBLE_DEVICES=5 python main.py \[m
+[31m-    --config configs/strawberry.json \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+[32m+[m[32m    --text  "a delicious hamburger" \[m
+[32m+[m[32m    --out_dir "hamburger_env-mountain-new_large-sds" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain_new.hdr" \[m
+     --sds_interval 100 \[m
+[31m-    --write_video \[m
+[31m-    --lgt_bias 1.0[m
+[32m+[m[32m    --lgt_interval 100 \[m
+[32m+[m[32m    --mat_interval 100 \[m
+[32m+[m[32m    --write_video[m
+[1mdiff --git a/shells/debug.sh b/shells/debug.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mindex 4dd7a5c..abaeb3a[m
+[1m--- a/shells/debug.sh[m
+[1m+++ b/shells/debug.sh[m
+[36m@@ -2,17 +2,38 @@[m
+ [m
+ wandb disabled[m
+ [m
+[31m-CUDA_VISIBLE_DEVICES=0 python main.py \[m
+[31m-    --config configs/debug.json \[m
+[32m+[m[32mCUDA_VISIBLE_DEVICES=7 python main.py \[m
+[32m+[m[32m    --config configs/fix_light.json \[m
+     --text "a ripe strawberry" \[m
+[31m-    --out_dir "0065_texture_debug" \[m
+[32m+[m[32m    --out_dir "0081_texture_debug" \[m
+[32m+[m[32m    --envmap "data/irrmaps/mountain.hdr" \[m
+     --sds_interval 100 \[m
+     --lgt_interval 1 \[m
+     --mat_interval 10 \[m
+     --write_video \[m
+     --debug[m
+ [m
+[31m-# CUDA_VISIBLE_DEVICES=0 python main.py \[m
+[32m+[m[32m# CUDA_VISIBLE_DEVICES=7 python main.py \[m
+[32m+[m[32m#     --config configs/debug.json \[m
+[32m+[m[32m#     --text "a ripe strawberry" \[m
+[32m+[m[32m#     --out_dir "0065_texture_debug" \[m
+[32m+[m[32m#     --sds_interval 100 \[m
+[32m+[m[32m#     --lgt_interval 1 \[m
+[32m+[m[32m#     --mat_interval 10 \[m
+[32m+[m[32m#     --write_video \[m
+[32m+[m[32m#     --debug[m
+[32m+[m
+[32m+[m[32m# CUDA_VISIBLE_DEVICES=7 python main.py \[m
+[32m+[m[32m#     --config configs/fix_light.json \[m
+[32m+[m[32m#     --text "a ripe strawberry" \[m
+[32m+[m[32m#     --out_dir "strawberry_env-cloudy_normal-sds" \[m
+[32m+[m[32m#     --envmap "data/irrmaps/cloudy_hdr_2K.hdr" \[m
+[32m+[m[32m#     --sds_interval 100 \[m
+[32m+[m[32m#     --lgt_interval 100 \[m
+[32m+[m[32m#     --mat_interval 100 \[m
+[32m+[m[32m#     --write_video[m
+[32m+[m
+[32m+[m[32m# CUDA_VISIBLE_DEVICES=7 python main.py \[m
+ #     --config configs/debug.json \[m
+ #     --text "a ripe strawberry" \[m
+ #     --out_dir "debug" \[m
+[36m@@ -21,6 +42,7 @@[m [mCUDA_VISIBLE_DEVICES=0 python main.py \[m
+ #     --mat_interval 10 \[m
+ #     --write_video[m
+ [m
+[32m+[m
+ # CUDA_VISIBLE_DEVICES=1 python main.py \[m
+ #     --config configs/debug.json \[m
+ #     --image "./img/quokka_rgba.png" \[m
+[1mdiff --git a/shells/preprocess_image.sh b/shells/preprocess_image.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/shells/train.sh b/shells/train.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/shells/train_multi.sh b/shells/train_multi.sh[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/utils/train.py b/utils/train.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m
+[1mdiff --git a/utils/utils.py b/utils/utils.py[m
+[1mold mode 100644[m
+[1mnew mode 100755[m

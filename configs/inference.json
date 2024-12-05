@@ -1,0 +1,10 @@
+{
+    "random_textures": true,
+    "iter": 1500,
+    "texture_res": [ 1024, 1024 ],
+    "train_res": [512, 512],
+    "batch": 8,
+    "learn_light" : false,
+    "envmap": "data/irrmaps/mud_road_puresky_4k.hdr",
+    "write_video": true
+}
