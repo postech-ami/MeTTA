@@ -177,10 +177,11 @@ The validation/checkpoints/final mesh will be stored to `./work_dirs/<out_dir>`.
 - Preprocessing code utilizing this model will be updated soon...
 
 
+
 ### Acknowledgement
 * The awesome original paper:
 ```bibtex
-@misc{chen2023fantasia3d,
+@inproceedings{chen2023fantasia3d,
       title={Fantasia3D: Disentangling Geometry and Appearance for High-quality Text-to-3D Content Creation}, 
       author={Rui Chen and Yongwei Chen and Ningxin Jiao and Kui Jia},
       year={2023},
@@ -189,7 +190,7 @@ The validation/checkpoints/final mesh will be stored to `./work_dirs/<out_dir>`.
       primaryClass={cs.CV}
 }
 
-@misc{liu2023zero1to3,
+@inproceedings{liu2023zero1to3,
       title={Zero-1-to-3: Zero-shot One Image to 3D Object}, 
       author={Ruoshi Liu and Rundi Wu and Basile Van Hoorick and Pavel Tokmakov and Sergey Zakharov and Carl Vondrick},
       year={2023},
@@ -202,3 +203,13 @@ The validation/checkpoints/final mesh will be stored to `./work_dirs/<out_dir>`.
 * [Fantasia3D unofficial](https://github.com/ashawkey/fantasia3d.unofficial) codebase.
 
 * [Nvdiffrec](https://github.com/NVlabs/nvdiffrec) codebase.
+
+### Citation
+```bibtex
+@inproceedings{yu2024metta,
+    title={MeTTA: Single-View to 3D Textured Mesh Reconstruction with Test-Time Adaptation},
+    author={Yu-Ji, Kim and Ha, Hyunwoo and Youwang, Kim and Surh, Jaeheung and Ha, Hyowon and Oh, Tae-Hyun},
+    booktitle={The British Machine Vision Conference (BMVC)},
+    year={2024}
+}
+```
